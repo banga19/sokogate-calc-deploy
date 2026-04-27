@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sokogate — Construction Materials Calculator</title>
+  <meta name="description" content="Calculate cement, sand, bricks, concrete, tiles, steel, paint, gravel, and roofing materials for your construction project.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= basePath %>/style.css?v=1.0.2">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="<%= basePath %>" class="brand" aria-label="Sokogate Home">
+          <div class="brand-icon">S</div>
+          <div class="brand-text">
+            <span class="brand-name">Sokogate</span>
+            <span class="brand-tagline">Materials Calculator</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <button type="button" class="btn-icon" id="themeToggle" title="Toggle theme" aria-label="Toggle dark mode">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <h1>Construction Materials Calculator</h1>
+        <p class="hero-subtitle">Accurately estimate cement, sand, bricks, concrete, tiles, steel, paint, and more for your next build.</p>
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>8 Material Types Supported</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+      <div class="main-grid">
+        <!-- Calculator Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-icon accent" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                <path d="M4 10h16M10 4v16"/>
+              </svg>
+            </div>
+            <div>
+              <div class="card-header-title">Project Details</div>
+              <div class="card-header-subtitle">Enter your measurements</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form action="<%= basePath %>/calculate" method="POST" id="calcForm" novalidate>
+              <!-- Area Input -->
+              <div class="form-group">
+                <label for="area" class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 21V9"/>
+                  </svg>
+                  Area
+                  <span class="label-hint">sq ft</span>
+                </label>
+                <input 
+                  type="number" 
+                  id="area" 
+                  name="area" 
+                  class="form-input" 
+                  required 
+                  min="1" 
+                  step="0.01" 
+                  placeholder="e.g. 500"
+                  autocomplete="off"
+                  aria-describedby="areaHint"
+                >
+                <div class="form-hint" id="areaHint">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                  Total surface area to be covered
+                </div>
+              </div>
+
+              <!-- Room Dimensions -->
+              <div class="form-group">
+                <div class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18M5 21V7l8-4 8 4v14"/>
+                    <path d="M9 21v-6h6v6"/>
+                  </svg>
+                  Room Dimensions
+                  <span class="label-hint">optional</span>
+                </div>
+                <div class="input-grid">
+                  <div class="form-group">
+                    <input type="number" id="roomWidth" name="roomWidth" class="form-input" min="0.1" step="0.01" placeholder="Width (ft)">
+                  </div>
+                  <div class="form-group">
+                    <input type="number" id="roomLength" name="roomLength" class="form-input" min="0.1" step="0.01" placeholder="Length (ft)">
+                  </div>
+                  <div class="form-group">
+                    <input type="number" id="roomHeight" name="roomHeight" class="form-input" min="0.1" step="0.01" placeholder="Height (ft)">
+                  </div>
+                </div>
+                <div class="form-hint">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                  Auto-calculates area from width × length
+                </div>
+              </div>
+
+              <!-- Material Type -->
+              <div class="form-group">
+                <label for="materialType" class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                  </svg>
+                  Material Type
+                </label>
+                <select id="materialType" name="materialType" class="form-select" required>
+                  <option value="" disabled selected>Select material...</option>
+                  <optgroup label="Masonry">
+                    <option value="bricks">Bricks (9" × 4.5")</option>
+                    <option value="blocks">Concrete Blocks (8" × 8" × 16")</option>
+                  </optgroup>
+                  <optgroup label="Concrete &amp; Cement">
+                    <option value="cement">Cement &amp; Sand Plastering</option>
+                    <option value="concrete">Concrete Slab (1:2:4 Mix)</option>
+                    <option value="steel">Reinforcement Steel</option>
+                  </optgroup>
+                  <optgroup label="Finishing">
+                    <option value="tiles">Floor/Wall Tiles</option>
+                    <option value="painting">Interior Painting</option>
+                    <option value="roofing">Metal Roofing</option>
+                  </optgroup>
+                  <optgroup label="Site Works">
+                    <option value="gravel">Crushed Stone / Gravel</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- Thickness Field (shown for concrete/steel) -->
+              <div class="form-group" id="thicknessGroup" style="display: none;">
+                <label for="thickness" class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="6" width="20" height="12" rx="2"/>
+                    <path d="M6 10h.01M6 14h.01"/>
+                  </svg>
+                  Thickness
+                  <span class="label-hint">inches</span>
+                </label>
+                <input 
+                  type="number" 
+                  id="thickness" 
+                  name="thickness" 
+                  class="form-input" 
+                  min="1" 
+                  max="24" 
+                  step="0.5" 
+                  value="4"
+                  placeholder="e.g. 4 inches"
+                >
+                <div class="form-hint">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                  Standard concrete slab: 4-6 inches
+                </div>
+              </div>
+
+              <!-- Tile Size Field (shown for tiles) -->
+              <div class="form-group" id="tileSizeGroup" style="display: none;">
+                <label for="tileSize" class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                  </svg>
+                  Tile Size
+                </label>
+                <select id="tileSize" name="tileSize" class="form-select">
+                  <option value="6">6" × 6" Mosaic</option>
+                  <option value="12" selected>12" × 12" Standard</option>
+                  <option value="18">18" × 18" Large</option>
+                  <option value="24">24" × 24" XL</option>
+                </select>
+                <div class="form-hint">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                  10% wastage included automatically
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block" id="calcSubmitBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="2"/>
+                  <path d="M4 10h16M10 4v16"/>
+                </svg>
+                Calculate Materials
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Results Column -->
+        <div class="results-column">
+          <% if (typeof result !== 'undefined' && result) { %>
+            <% if (result.error) { %>
+              <div class="card results-section">
+                <div class="card-header">
+                  <div class="card-header-icon error" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="15" y1="9" x2="9" y2="15"/>
+                      <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="card-header-title">Calculation Error</div>
+                    <div class="card-header-subtitle">Please check your input</div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="error">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="10" cy="10" r="8"/>
+                      <line x1="10" y1="6" x2="10" y2="14"/>
+                      <line x1="10" y1="14" x2="14" y2="10"/>
+                    </svg>
+                    <span><%= result.error %></span>
+                  </div>
+                </div>
+              </div>
+            <% } else { %>
+              <div class="card results-section">
+                <div class="card-header">
+                  <div class="card-header-icon success" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="card-header-title">Calculation Results</div>
+                    <div class="card-header-subtitle">Material estimates for your project</div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="result-summary">
+                    <span class="material-type-badge"><%= result.materialType || 'Materials' %></span>
+                  </div>
+                  <% if (result.cement) { %>
+                    <div class="result-item">
+                      <span class="label">Cement</span>
+                      <span class="value"><%= result.cement %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.sand) { %>
+                    <div class="result-item">
+                      <span class="label">Sand</span>
+                      <span class="value"><%= result.sand %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.aggregate) { %>
+                    <div class="result-item">
+                      <span class="label">Aggregate</span>
+                      <span class="value"><%= result.aggregate %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.bricks) { %>
+                    <div class="result-item">
+                      <span class="label">Bricks</span>
+                      <span class="value"><%= result.bricks %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.concrete) { %>
+                    <div class="result-item">
+                      <span class="label">Concrete</span>
+                      <span class="value"><%= result.concrete %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.paint) { %>
+                    <div class="result-item">
+                      <span class="label">Paint</span>
+                      <span class="value"><%= result.paint %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.primer) { %>
+                    <div class="result-item">
+                      <span class="label">Primer</span>
+                      <span class="value"><%= result.primer %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.tiles) { %>
+                    <div class="result-item">
+                      <span class="label">Tiles</span>
+                      <span class="value"><%= result.tiles %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.tileArea) { %>
+                    <div class="result-item">
+                      <span class="label">Tile Area</span>
+                      <span class="value"><%= result.tileArea %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.adhesive) { %>
+                    <div class="result-item">
+                      <span class="label">Adhesive</span>
+                      <span class="value"><%= result.adhesive %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.grout) { %>
+                    <div class="result-item">
+                      <span class="label">Grout</span>
+                      <span class="value"><%= result.grout %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.steel) { %>
+                    <div class="result-item">
+                      <span class="label">Steel</span>
+                      <span class="value"><%= result.steel %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.wireMesh) { %>
+                    <div class="result-item">
+                      <span class="label">Wire Mesh</span>
+                      <span class="value"><%= result.wireMesh %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.blocks) { %>
+                    <div class="result-item">
+                      <span class="label">Blocks</span>
+                      <span class="value"><%= result.blocks %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.gravel) { %>
+                    <div class="result-item">
+                      <span class="label">Gravel</span>
+                      <span class="value"><%= result.gravel %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.geotextile) { %>
+                    <div class="result-item">
+                      <span class="label">Geotextile</span>
+                      <span class="value"><%= result.geotextile %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.roofingSheets) { %>
+                    <div class="result-item">
+                      <span class="label">Roofing Sheets</span>
+                      <span class="value"><%= result.roofingSheets %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.screws) { %>
+                    <div class="result-item">
+                      <span class="label">Screws</span>
+                      <span class="value"><%= result.screws %></span>
+                    </div>
+                  <% } %>
+                  <% if (result.flashing) { %>
+                    <div class="result-item">
+                      <span class="label">Flashing</span>
+                      <span class="value"><%= result.flashing %></span>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            <% } %>
+          <% } else { %>
+            <div class="card results-section">
+              <div class="card-header">
+                <div class="card-header-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="card-header-title">Calculation Results</div>
+                  <div class="card-header-subtitle">Material estimates for your project</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="empty-state">
+                  <p>Enter project details and click <strong>Calculate Materials</strong> to see estimates.</p>
+                </div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+
+    </main>
+
+    <!-- Debug: Show result object if ?debug=1 -->
+    <% if (typeof result !== 'undefined' && result && typeof query !== 'undefined' && query.debug) { %>
+      <div style="background:#f00;color:#fff;padding:10px;margin-top:20px;font-family:monospace;font-size:12px;">
+        <strong>DEBUG:</strong> <pre><%= JSON.stringify(result, null, 2) %></pre>
+      </div>
+    <% } %>
+  </div>
+
+  <script>
+    window.APP_BASE_PATH = "<%= basePath %>";
+  </script>
+
+  <script>
+    const resultData = <%- typeof result !== 'undefined' ? JSON.stringify(result || null) : 'null' %>;
+  </script>
+  <script src="<%= basePath %>/script.js"></script>
+</body>
+</html>
+

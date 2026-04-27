@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const BASE_PATH = process.env.BASE_PATH || '/Calculate';
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -13,31 +15,43 @@ app.use((req, res, next) => {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Enable CORS for iframe integration
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'https://ultimotradingltd.co.ke',
+  credentials: true
+}));
+
+// Inject basePath for templates
+app.use((req, res, next) => {
+  res.locals.basePath = BASE_PATH;
+  next();
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static assets at BASE_PATH (e.g., /Calculate/style.css)
+app.use(BASE_PATH, express.static(path.join(__dirname, 'public')));
 
-// Serve calculator page at root
-app.get('/', (req, res) => {
-  res.render('index', { result: null, query: req.query });
+// Create router for calculator routes
+const router = express.Router();
+
+// Health check
+router.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Serve calculator page
-app.get('/sokogate-calc', (req, res) => {
+router.get('/', (req, res) => {
   res.render('index', { result: null, query: req.query });
 });
 
-app.get('/sokogate-calc/calculate', (req, res) => {
+router.get('/calculate', (req, res) => {
   res.render('index', { result: null, query: req.query });
-});
-
-// Redirect /calculate to calculator page
-app.get('/calculate', (req, res) => {
-  res.redirect('/sokogate-calc');
 });
 
 // Handle form submission
-app.post('/sokogate-calc/calculate', (req, res) => {
+router.post('/calculate', (req, res) => {
   const { area, materialType, thickness, tileSize, roomWidth, roomHeight, roomLength } = req.body;
   let result = {};
   const areaNum = parseFloat(area);
@@ -145,7 +159,7 @@ app.post('/sokogate-calc/calculate', (req, res) => {
 });
 
 // API endpoint for room visualizer
-app.post('/api/calculate-room', (req, res) => {
+router.post('/api/calculate-room', (req, res) => {
   const { height, width, length, unit } = req.body;
 
   const heightNum = parseFloat(height);
@@ -204,10 +218,8 @@ app.post('/api/calculate-room', (req, res) => {
   });
 });
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
+// Mount router at BASE_PATH
+app.use(BASE_PATH, router);
 
 // Error handling
 app.use((err, req, res, next) => {

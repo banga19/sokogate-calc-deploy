@@ -1,0 +1,52 @@
+# Sokogate-Calc — cPanel Deployment Configuration
+# 
+# IMPORTANT: For standard cPanel Node.js app (Phusion Passenger),
+# this file does NOT need rewrite rules. Passenger handles routing.
+# 
+# ONLY uncomment the proxy rule below if:
+#   1. Using WordPress iframe integration, OR
+#   2. Running Node.js manually behind Apache (not via Passenger)
+#
+# For WordPress page integration at https://ultimotradingltd.co.ke/Calculate/
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Set the base for all relative rewrites to the subfolder path
+    RewriteBase /Calculate/
+
+    # 1. Allow direct access to actual files (CSS, JS, images, fonts, etc.)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 2. For Node.js/Express: proxy requests to the app
+    # When using iframe integration or manual Node.js behind Apache,
+    # uncomment the line below and ensure the port matches your app:
+    # RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+
+    # 3. Alternative: For static export (if app is converted to static)
+    # Uncomment the line below ONLY if serving a pre-built static SPA:
+    # RewriteRule ^ index.html [L]
+</IfModule>
+
+# Enable long-term caching for static assets
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+</IfModule>
+
+# Prevent access to sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Deny access to backup files
+<FilesMatch "\.(backup|bak|tar\.gz|zip)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Set default charset
+AddDefaultCharset UTF-8

@@ -1,0 +1,31 @@
+{
+  "name": "sokogate-construction-calculator",
+  "version": "1.0.0",
+  "description": "A Node.js app for calculating construction materials - cPanel ready",
+  "main": "app.js",
+  "keywords": [
+    "construction",
+    "calculator",
+    "nodejs",
+    "express",
+    "cpanel",
+    "sokogate"
+  ],
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js",
+    "stop": "pkill -f 'node app.js' || echo 'No running processes found'",
+    "deploy": "npm install && npm start"
+  },
+
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  },
+
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
