@@ -44,13 +44,13 @@ public/
 
 ### Option A: File Manager
 1. Login to cPanel → **File Manager**
-2. Navigate to `public_html/` or subdomain folder
-3. Create folder: `sokogate-calc/`
-4. Upload all files (zip and extract, or upload individually)
+ 2. Navigate to `public_html/repositories/`
+ 3. Create folder: `sokogate-calc-deploy/` (if not exists)
+ 4. Upload all files (zip and extract, or upload individually)
 
 ### Option B: FTP/SFTP
 1. Connect via FTP client (FileZilla, etc.)
-2. Upload files to `/home/username/public_html/sokogate-calc/`
+ 2. Upload files to `/home/ultimotr/public_html/repositories/sokogate-calc-deploy/`
 
 ### Option C: Git (if enabled)
 1. cPanel → **Git Version Control**
@@ -65,8 +65,8 @@ public/
    ```
    Node.js version:     18.x or 20.x (recommended)
    Application mode:    Production
-   Application root:    /home/username/public_html/Calculate
-   Application URL:     yourdomain.com/Calculate
+    Application root:    /home/ultimotr/public_html/repositories/sokogate-calc-deploy
+    Application URL:     ultimotradingltd.co.ke/Calculate
    Application startup file: app.js
    ```
 4. Set **Environment Variables**:
@@ -83,7 +83,7 @@ public/
 After creating the app, cPanel provides a command to run:
 
 ```bash
-cd /home/username/sokogate-calc
+cd /home/ultimotr/public_html/repositories/sokogate-calc-deploy
 npm install
 ```
 
@@ -102,9 +102,9 @@ npm install
 
 Visit these URLs to test:
 ```
-https://yourdomain.com/Calculate              # Calculator page
-https://yourdomain.com/Calculate/health       # Health check (should return JSON)
-https://yourdomain.com/Calculate/style.css    # Static assets
+https://ultimotradingltd.co.ke/Calculate              # Calculator page
+https://ultimotradingltd.co.ke/Calculate/health       # Health check (should return JSON)
+https://ultimotradingltd.co.ke/Calculate/style.css    # Static assets
 ```
 
 **Expected responses:**
@@ -142,7 +142,7 @@ If you have SSH access:
 
 ```bash
 # Navigate to app directory
-cd /home/username/public_html/Calculate
+cd /home/ultimotr/public_html/repositories/sokogate-calc-deploy
 
 # Install dependencies
 npm ci
@@ -151,7 +151,7 @@ npm ci
 node app.js
 
 # View logs
-cat /home/username/logs/passenger.log
+cat /home/ultimotr/logs/passenger.log
 ```
 
 ## WordPress iframe Integration
