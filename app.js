@@ -9,9 +9,9 @@ const PORT = process.env.PORT || 3000;
 /* ═══════════════════════════════════════════════════════════════
    BASE_PATH  —  MUST MATCH the URL path on the live server.
    In cPanel, if the app is accessed at:
-       https://ultimotradingltd.co.ke/repositories/Sokogate-calc-deploy
+       https://ultimotradingltd.co.ke/sokogate-calc/sokogate-calc-deploy
    then set this in the env panel:
-       BASE_PATH=/repositories/Sokogate-calc-deploy
+       BASE_PATH=/sokogate-calc/sokogate-calc-deploy
    ═══════════════════════════════════════════════════════════════ */
 const BASE_PATH = process.env.BASE_PATH || '/sokogate-calc/sokogate-calc-deploy';
 
