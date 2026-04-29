@@ -103,13 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
   if (roomForm) {
     roomForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-    const formData = new FormData(roomForm);
-    const data = {
-      height: formData.get('height'),
-      width: formData.get('width'),
-      length: formData.get('length'),
-      unit: formData.get('unit')
-    };
+      const formData = new FormData(roomForm);
+      const data = {
+        height: formData.get('height'),
+        width: formData.get('width'),
+        length: formData.get('length'),
+        unit: formData.get('unit')
+      };
 
       if (roomBtn) {
         roomBtn.disabled = true;
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-        const response = await fetch('/api/calculate-room', {
+        const response = await fetch(window.APP_BASE_PATH + '/api/calculate-room', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -125,22 +125,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const result = await response.json();
 
-      if (response.ok) {
-        displayRoomResults(result);
-        if (typeof updateRoom3D === 'function') {
-          updateRoom3D(result.dimensions, result.unit);
-        }
-      }
+        if (response.ok) {
+          displayRoomResults(result);
+          if (typeof updateRoom3D === 'function') {
+            updateRoom3D(result.dimensions, result.unit);
+          }
         } else {
           showRoomError(result.error || 'Invalid input. Please check your dimensions.');
         }
       } catch (error) {
         console.error('Room calculation error:', error);
         showRoomError('Failed to calculate. Please try again.');
-    } finally {
-      roomBtn.disabled = false;
-      roomBtn.textContent = 'Visualize Room';
-    }
+      } finally {
+        roomBtn.disabled = false;
+        roomBtn.textContent = 'Visualize Room';
       }
     });
   }
