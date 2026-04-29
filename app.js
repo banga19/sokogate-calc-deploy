@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
    then set this in the env panel:
        BASE_PATH=/repositories/Sokogate-calc-deploy
    ═══════════════════════════════════════════════════════════════ */
-const BASE_PATH = process.env.BASE_PATH || '/repositories/Sokogate-calc-deploy';
+const BASE_PATH = process.env.BASE_PATH || '/sokogate-calc/sokogate-calc-deploy';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
